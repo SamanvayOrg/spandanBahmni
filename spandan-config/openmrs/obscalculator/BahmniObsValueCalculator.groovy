@@ -54,33 +54,25 @@ public class BahmniObsValueCalculator implements ObsValueCalculator {
         calculateAndAdd(bahmniEncounterTransaction);
     }
 
-    static def calculateAndAdd(BahmniEncounterTransaction bahmniEncounterTransaction) {
+ static def calculateAndAdd(BahmniEncounterTransaction bahmniEncounterTransaction) {
         Collection<BahmniObservation> observations = bahmniEncounterTransaction.getObservations()
-	setAutisticHyperactivityTotal( observations, bahmniEncounterTransaction)
-        
-	def nowAsOfEncounter = bahmniEncounterTransaction.getEncounterDateTime() != null ? bahmniEncounterTransaction.getEncounterDateTime() : new Date();
+        setAutisticHyperactivityTotal( observations, bahmniEncounterTransaction)
+        setBMIDetails(observations, bahmniEncounterTransaction)
+       	setObstetricsEDD(observations, bahmniEncounterTransaction)
+        setANCEDD(observations, bahmniEncounterTransaction)
+        setWaistHipRatio(observations, bahmniEncounterTransaction)
+    
+}
 
-        BahmniObservation heightObservation = find("Height", observations, null)
+private
+    static void setBMIDetails(Collection<BahmniObservation> observations, BahmniEncounterTransaction bahmniEncounterTransaction) {      
+
+	BahmniObservation heightObservation = find("Height", observations, null)
         BahmniObservation weightObservation = find("Weight", observations, null)
         BahmniObservation parent = null;
+        def nowAsOfEncounter = bahmniEncounterTransaction.getEncounterDateTime() != null ? bahmniEncounterTransaction.getEncounterDateTime() : new Date();
 
         if (hasValue(heightObservation) || hasValue(weightObservation)) {
-            def heightObs = null, weightObs = null;
-            Encounter encounter = Context.getEncounterService().getEncounterByUuid(bahmniEncounterTransaction.getEncounterUuid());
-            if (encounter != null) {
-                Set<Obs> latestObsOfEncounter = encounter.getObsAtTopLevel(true);
-                latestObsOfEncounter.each { Obs latestObs ->
-                    for (Obs groupMember : latestObs.groupMembers) {
-                        heightObs = heightObs ? heightObs : (groupMember.concept.getName().name.equalsIgnoreCase("HEIGHT") ? groupMember : null);
-                        weightObs = weightObs ? weightObs : (groupMember.concept.getName().name.equalsIgnoreCase("WEIGHT") ? groupMember : null);
-                    }
-                }
-                if (isSameObs(heightObservation, heightObs) && isSameObs(weightObservation, weightObs)) {
-                    return;
-                }
-            }
-
-
             BahmniObservation bmiDataObservation = find("BMI Data", observations, null)
             BahmniObservation bmiObservation = find("BMI", bmiDataObservation ? [bmiDataObservation] : [], null)
             BahmniObservation bmiAbnormalObservation = find("BMI Abnormal", bmiDataObservation ? [bmiDataObservation]: [], null)
@@ -101,7 +93,7 @@ public class BahmniObsValueCalculator implements ObsValueCalculator {
                 voidObs(bmiStatusDataObservation);
                 voidObs(bmiStatusObservation);
                 voidObs(bmiAbnormalObservation);
-                return
+                return;
             }
 
             def previousHeightValue = fetchLatestValue("Height", bahmniEncounterTransaction.getPatientUuid(), heightObservation, nowAsOfEncounter)
@@ -117,12 +109,7 @@ public class BahmniObsValueCalculator implements ObsValueCalculator {
                 voidObs(bmiStatusDataObservation)
                 voidObs(bmiStatusObservation)
                 voidObs(bmiAbnormalObservation)
-                return
-            }
-
-            if(encounter != null) {
-                voidPreviousBMIObs(encounter.getObsAtTopLevel(false));
-                voidPreviousBMIObs(encounter.getObs());
+                return;
             }
 
             bmiDataObservation = bmiDataObservation ?: createObs("BMI Data", null, bahmniEncounterTransaction, obsDatetime) as BahmniObservation
@@ -143,29 +130,15 @@ public class BahmniObsValueCalculator implements ObsValueCalculator {
             bmiStatusAbnormalObservation =  bmiStatusAbnormalObservation ?: createObs("BMI Status Abnormal", bmiStatusDataObservation, bahmniEncounterTransaction, obsDatetime) as BahmniObservation;
             bmiStatusAbnormalObservation.setValue(bmiAbnormal);
 
-            return
+            return;
         }
+}
 
-        BahmniObservation waistCircumferenceObservation = find("Waist Circumference", observations, null)
-        BahmniObservation hipCircumferenceObservation = find("Hip Circumference", observations, null)
-        if (hasValue(waistCircumferenceObservation) && hasValue(hipCircumferenceObservation)) {
-            def calculatedConceptName = "Waist/Hip Ratio"
-            BahmniObservation calculatedObs = find(calculatedConceptName, observations, null)
-            parent = obsParent(waistCircumferenceObservation, null)
-
-            Date obsDatetime = getDate(waistCircumferenceObservation)
-            def waistCircumference = waistCircumferenceObservation.getValue() as Double
-            def hipCircumference = hipCircumferenceObservation.getValue() as Double
-            def waistByHipRatio = waistCircumference/hipCircumference
-            if (calculatedObs == null)
-                calculatedObs = createObs(calculatedConceptName, parent, bahmniEncounterTransaction, obsDatetime) as BahmniObservation
-
-            calculatedObs.setValue(waistByHipRatio)
-            return
-        }
-
+private
+    static void setObstetricsEDD(Collection<BahmniObservation> observations, BahmniEncounterTransaction bahmniEncounterTransaction) {
         BahmniObservation lmpObservation = find("Obstetrics, Last Menstrual Period", observations, null)
         def calculatedConceptName = "Estimated Date of Delivery"
+        BahmniObservation parent = null;
         if (hasValue(lmpObservation)) {
             parent = obsParent(lmpObservation, null)
             def calculatedObs = find(calculatedConceptName, observations, null)
@@ -184,11 +157,184 @@ public class BahmniObsValueCalculator implements ObsValueCalculator {
             }
         }
     }
+        private
+    static void setANCEDD(Collection<BahmniObservation> observations, BahmniEncounterTransaction bahmniEncounterTransaction) {
+        BahmniObservation ancObservation = find("ANC, Last menstrual period", observations, null)
+            BahmniObservation parent = null;
+        def calculatedConceptNameanc = "ANC, Estimated Date of Delivery"
+        if (hasValue(ancObservation)) {
+            parent = obsParent(ancObservation, null)
+            def calculatedObs = find(calculatedConceptNameanc, observations, null)
+
+            Date obsDatetime = getDate(ancObservation)
+
+            LocalDate edd = new LocalDate(ancObservation.getValue()).plusMonths(9).plusWeeks(1)
+            if (calculatedObs == null)
+                calculatedObs = createObs(calculatedConceptNameanc, parent, bahmniEncounterTransaction, obsDatetime) as BahmniObservation
+            calculatedObs.setValue(edd)
+        } else {
+            def calculatedObs = find(calculatedConceptNameanc, observations, null)
+            if (hasValue(calculatedObs)) {
+                voidObs(calculatedObs)
+            }
+        }
+    }
+
+
+        private
+    static void setWaistHipRatio(Collection<BahmniObservation> observations, BahmniEncounterTransaction bahmniEncounterTransaction) {
+        BahmniObservation parent
+        BahmniObservation waistCircumferenceObservation = find("Waist Circumference", observations, null)
+        BahmniObservation hipCircumferenceObservation = find("Hip Circumference", observations, null)
+        if (hasValue(waistCircumferenceObservation) && hasValue(hipCircumferenceObservation)) {
+            def calculatedConceptName = "Waist/Hip Ratio"
+            BahmniObservation calculatedObs = find(calculatedConceptName, observations, null)
+            parent = obsParent(waistCircumferenceObservation, null)
+
+            Date obsDatetime = getDate(waistCircumferenceObservation)
+            def waistCircumference = waistCircumferenceObservation.getValue() as Double
+            def hipCircumference = hipCircumferenceObservation.getValue() as Double
+            def waistByHipRatio = waistCircumference / hipCircumference
+            if (calculatedObs == null)
+                calculatedObs = createObs(calculatedConceptName, parent, bahmniEncounterTransaction, obsDatetime) as BahmniObservation
+
+            calculatedObs.setValue(waistByHipRatio)
+        }
+    }
+     
+private
+    static void setAutisticHyperactivityTotal(Collection<BahmniObservation> observations, BahmniEncounterTransaction bahmniEncounterTransaction) {
+
+	BahmniObservation parent = null;
+        Date obsDatetime = null;
+
+	BahmniObservation observation1 = find("Often Fidgets or squirms in seat", observations, null)
+	BahmniObservation observation2 = find("Has difficulty remaining seated", observations, null)
+	BahmniObservation observation3 = find("Cannot sit still, restless or hyperactive", observations, null)
+	BahmniObservation observation4 = find("Boundless energy, difficulty going to sleep.", observations, null)
+	BahmniObservation observation5 = find("Clumsiness, poor coordination, unusual body movements or posturing", observations, null)
+	BahmniObservation observation6 = find("Has difficulty awaiting turn in groups", observations, null)
+	BahmniObservation observation7 = find("Has difficulty in following instructions", observations, null)
+	BahmniObservation observation8 = find("Has difficulty sustaining to tasks", observations, null)
+	BahmniObservation observation9 = find("Often engagesin physically dangerous activities without considering consequences", observations, null)
+	BahmniObservation observation10 = find("Indulges in excessive screaming / crying", observations, null)
+
+	BahmniObservation observation11 = find("Throws temper tantrums", observations, null)
+	BahmniObservation observation12 = find("Destructive behaviour",observations, null)
+	BahmniObservation observation13 = find("Self injurious behaviour", observations, null)
+	BahmniObservation observation14 = find("Stereoyed motor mannerism Eg: flapping, spinning", observations, null)
+	BahmniObservation observation15 = find("Object fixation Eg: wrappers", observations, null)
+	BahmniObservation observation16 = find("Inflexible addherence to specific non functional routine or rituals", observations, null)
+	BahmniObservation observation17 = find("Impulsive acts", observations, null)
+	BahmniObservation observation18 = find("Obsessive speech", observations, null)
+	BahmniObservation observation19 = find("Often agitated", observations, null)
+
+
+		def calculatedConceptNameTotalCount = "Total Count"
+                BahmniObservation calculatedObsCount = find(calculatedConceptNameTotalCount, observations, null)
+
+                def calculatedConceptNameNotAtAll = "Not at all (0)"
+                BahmniObservation calculatedObsNotAtAll = find(calculatedConceptNameNotAtAll, observations, null)
+
+                 def calculatedConceptNameJustLittle = "Just little (1)"
+                BahmniObservation calculatedObsJustLittle = find(calculatedConceptNameJustLittle , observations, null)
+
+                def calculatedConceptNamePrettyMuch = "Pretty much (2)"
+                BahmniObservation calculatedObsPrettyMuch = find(calculatedConceptNamePrettyMuch, observations, null)
+
+                def calculatedConceptNameVeryMuch = "Very much (3)"
+                BahmniObservation calculatedObsVeryMuch= find(calculatedConceptNameVeryMuch, observations, null)
+
+	
+        def countNotAtAll=0, countJustLittle=0, countPrettyMuch=0, countVeryMuch = 0;
+
+        def observationsArray = [observation1,observation2,observation3,observation4 ,observation5 ,observation6 ,observation7 
+					,observation8 ,observation9 ,observation10 ,observation11 ,observation12,observation13 ,observation14 
+					,observation15 ,observation16 ,observation17,observation18 ,observation19];
+    			
+		for (BahmniObservation obs : observationsArray) {
+			if(hasValue(obs)){
+				def value = null
+				if (obs.getValue().name instanceof String) {
+ 					  value = obs.getValue().name 
+				}
+				else{
+  					value = obs.getValue().name.display
+				}
+			
+
+			if(value == 'Not at all')
+				countNotAtAll= countNotAtAll + 1;
+		
+			 if(value =='Just little')
+                              countJustLittle = countJustLittle+1;
+
+			 if(value == 'Pretty much')
+                               countPrettyMuch= countPrettyMuch+1;
+			
+			 if(value == 'Very much')
+                                 countVeryMuch = countVeryMuch+1;
+			}
+		}			
+		
+		if(hasValue(observation1)){
+		parent = obsParent(observation1, null)
+		obsDatetime = getDate(observation1)
+
+		def total = countJustLittle +  (countPrettyMuch*2) + (countVeryMuch*3) ;
+	
+		
+                calculatedObsCount = 
+			calculatedObsCount ?: createObs(calculatedConceptNameTotalCount, parent, bahmniEncounterTransaction, obsDatetime) as BahmniObservation
+		calculatedObsCount.setValue(total)
+	
+	    
+
+		calculatedObsNotAtAll =
+			calculatedObsNotAtAll ?: createObs(calculatedConceptNameNotAtAll,parent , bahmniEncounterTransaction, obsDatetime) as BahmniObservation
+                calculatedObsNotAtAll.setValue(countNotAtAll)
+
+                 calculatedObsJustLittle =
+			calculatedObsJustLittle ?: createObs(calculatedConceptNameJustLittle, parent, bahmniEncounterTransaction, obsDatetime) as BahmniObservation
+                calculatedObsJustLittle.setValue(countJustLittle)
+
+		
+                calculatedObsPrettyMuch = 
+			calculatedObsPrettyMuch ?:createObs(calculatedConceptNamePrettyMuch, parent, bahmniEncounterTransaction, obsDatetime) as BahmniObservation
+                calculatedObsPrettyMuch.setValue(countPrettyMuch)
+
+		 calculatedObsVeryMuch =
+			 calculatedObsVeryMuch ?: createObs(calculatedConceptNameVeryMuch,parent, bahmniEncounterTransaction, obsDatetime) as BahmniObservation
+             	calculatedObsVeryMuch.setValue(countVeryMuch)
+	
+		return
+		}else {
+            	
+
+		if(hasValue(calculatedObsCount)) 
+                voidObs(calculatedObsCount)
+		
+		if(hasValue(calculatedObsNotAtAll)) 
+                voidObs(calculatedObsNotAtAll)
+		
+		if(hasValue(calculatedObsJustLittle)) 
+                voidObs(calculatedObsJustLittle)
+		
+		if(hasValue(calculatedObsPrettyMuch)) 
+                voidObs(calculatedObsPrettyMuch)
+		
+		if(hasValue(calculatedObsVeryMuch)) 
+                voidObs(calculatedObsVeryMuch)
+
+
+            }
+    }
+
 
     private static BahmniObservation obsParent(BahmniObservation child, BahmniObservation parent) {
         if (parent != null) return parent;
 
-        if(child != null) {
+        if(child != null) {	
             return obsParentMap.get(child)
         }
     }
@@ -321,7 +467,7 @@ public class BahmniObsValueCalculator implements ObsValueCalculator {
     static BahmniObservation find(String conceptName, Collection<BahmniObservation> observations, BahmniObservation parent) {
         for (BahmniObservation observation : observations) {
             if (conceptName.equalsIgnoreCase(observation.getConcept().getName())) {
-                obsParentMap.put(observation, parent);
+                obsParentMap.put(observation, parent);       
                 return observation;
             }
             BahmniObservation matchingObservation = find(conceptName, observation.getGroupMembers(), observation)
@@ -419,102 +565,4 @@ public class BahmniObsValueCalculator implements ObsValueCalculator {
             return result
         }
     }
-
-
-private
-    static void setAutisticHyperactivityTotal(Collection<BahmniObservation> observations, BahmniEncounterTransaction bahmniEncounterTransaction) {
-	BahmniObservation observation1 = find("Often Fidgets or squirms in seat", observations, null)
-	BahmniObservation observation2 = find("Has difficulty remaining seated", observations, null)
-	BahmniObservation observation3 = find("Can’t sit still, restless or hyperactive", observations, null)
-	BahmniObservation observation4 = find("Boundless energy, difficulty going to sleep.", observations, null)
-	BahmniObservation observation5 = find("Clumsiness, poor coordination, unusual body movements or posturing", observations, null)
-	BahmniObservation observation6 = find("Has difficulty awaiting turn in groups", observations, null)
-	BahmniObservation observation7 = find("Has difficulty in following instructions", observations, null)
-	BahmniObservation observation8 = find("Has difficulty sustaining to tasks", observations, null)
-	BahmniObservation observation9 = find("Often engagesin physically dangerous activities without considering consequences", observations, null)
-	BahmniObservation observation10 = find("Idulges in excessive screaming / crying", observations, null)
-	BahmniObservation observation11 = find("Throws temper tantrums", observations, null)
-
-	BahmniObservation observation12 = find("Destructive behaviour",observations, null)
-
-	BahmniObservation observation13 = find("Self injurious behaviour", observations, null)
-	BahmniObservation observation14 = find("Stereoyed motor mannerism Eg: flapping, spinning", observations, null)
-	BahmniObservation observation15 = find("Object fixation Eg: wrappers", observations, null)
-	BahmniObservation observation16 = find("Inflexible addherence to specific non-functional routine or rituals", observations, null)
-	BahmniObservation observation17 = find("Impulsive acts", observations, null)
-	BahmniObservation observation18 = find("Obsessive speech", observations, null)
-	BahmniObservation observation19 = find("Often agitated", observations, null)
-	
-        def countNotAtAll=0, countJustLittle=0, countPrettyMuch=0, countVeryMuch = 0;
-
-        def observationsArray = [observation1,observation2,observation3,observation4 ,observation5 ,observation6 ,observation7 
-					,observation8 ,observation9 ,observation10 ,observation11 ,observation12,observation13 ,observation14 
-					,observation15 ,observation16 ,observation17,observation18 ,observation19];
-    	
-		
-		
-		for (BahmniObservation obs : observationsArray) {
-			if(hasValue(obs)){
-			
-			if(obs.getValue() == 'Not at all')
-				countNotAtAll++;
-
-			 if(obs.getValue()=='Just little')
-                                countJustLittle++;
-
-			 if(obs.getValue() == 'Pretty much')
-                                countPrettyMuch++;
-			
-			 if(obs.getValue() == 'Very much')
-                                 countVeryMuch++;
-			}
-		}			
-
-		BahmniObservation parent = obsParent(observation1 , null)
-
-		Date obsDatetime = getDate(observation1)
-
-
-		def total = countJustLittle +  (countPrettyMuch*2) + (countVeryMuch*3) ;
-		
-		def calculatedConceptNameTotalCount = "Total Count"
-	        BahmniObservation calculatedObsCount = find(calculatedConceptNameTotalCount, observations, null)
-
-		 	if (calculatedObsCount == null)
-                calculatedObsCount = createObs(calculatedConceptNameTotalCount, parent, bahmniEncounterTransaction, obsDatetime) as BahmniObservation
-                calculatedObsCount.setValue(total);
-	
-		def calculatedConceptNameNotAtAll = "Not at all (0)"
-                BahmniObservation calculatedObsNotAtAll = find(calculatedConceptNameNotAtAll, observations, null)
-
-
-			if (calculatedObsNotAtAll == null)
-                calculatedObsNotAtAll = createObs(calculatedConceptNameNotAtAll, parent, bahmniEncounterTransaction, obsDatetime) as BahmniObservation
-                calculatedObsNotAtAll.setValue(10);
-
-		def calculatedConceptNameJustLittle = "Just little (1)"
-                BahmniObservation calculatedObsJustLittle = find(calculatedConceptNameJustLittle , observations, null)
-
-                if (calculatedObsJustLittle == null)
-                calculatedObsJustLittle = createObs(calculatedConceptNameJustLittle, parent, bahmniEncounterTransaction, obsDatetime) as BahmniObservation
-                calculatedObsJustLittle.setValue(countJustLittle);
-
-		def calculatedConceptNamePrettyMuch = "Pretty much (2)"
-                BahmniObservation calculatedObsPrettyMuch = find(calculatedConceptNamePrettyMuch, observations, null)
-
-                 if (calculatedObsPrettyMuch == null)
-                calculatedObsPrettyMuch = createObs(calculatedConceptNamePrettyMuch, parent, bahmniEncounterTransaction, obsDatetime) as BahmniObservation
-                calculatedObsPrettyMuch.setValue(countPrettyMuch);
-
-		def calculatedConceptNameVeryMuch = "Very much (3)"
-                BahmniObservation calculatedObsVeryMuch= find(calculatedConceptNameVeryMuch, observations, null)
-
-                if (calculatedObsVeryMuch == null)
-                calculatedObsVeryMuch = createObs(calculatedConceptNameVeryMuch, parent, bahmniEncounterTransaction, obsDatetime) as BahmniObservation
-		calculatedObsVeryMuch.setValue(countVeryMuch);
-	
-		return;
-
-    }
-	
 }
