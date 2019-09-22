@@ -194,7 +194,7 @@ private
             Date obsDatetime = getDate(waistCircumferenceObservation)
             def waistCircumference = waistCircumferenceObservation.getValue() as Double
             def hipCircumference = hipCircumferenceObservation.getValue() as Double
-            def waistByHipRatio = waistCircumference / hipCircumference
+            def waistByHipRatio = (waistCircumference / hipCircumference)/1
             if (calculatedObs == null)
                 calculatedObs = createObs(calculatedConceptName, parent, bahmniEncounterTransaction, obsDatetime) as BahmniObservation
 
@@ -282,30 +282,42 @@ private
 		obsDatetime = getDate(observation1)
 
 		def total = countJustLittle +  (countPrettyMuch*2) + (countVeryMuch*3) ;
-	
+
+		 def file1 = new File(OpenmrsUtil.getApplicationDataDirectory() + "obscalculator/groovy_debug.txt") 
+		file1.append 'calculatedObsCount'+total
+		file1.append 'Not at all'+countNotAtAll 	
 		
                 calculatedObsCount = 
 			calculatedObsCount ?: createObs(calculatedConceptNameTotalCount, parent, bahmniEncounterTransaction, obsDatetime) as BahmniObservation
 		calculatedObsCount.setValue(total)
-	
-	    
+		calculatedObsCount.setFormFieldPath('AUTISTIC HYPERACTIVITY SCALE.39/51-0');
+                calculatedObsCount.setFormNamespace('Bahmni');
+  
 
 		calculatedObsNotAtAll =
 			calculatedObsNotAtAll ?: createObs(calculatedConceptNameNotAtAll,parent , bahmniEncounterTransaction, obsDatetime) as BahmniObservation
                 calculatedObsNotAtAll.setValue(countNotAtAll)
+		calculatedObsNotAtAll.setFormFieldPath('AUTISTIC HYPERACTIVITY SCALE.39/69-0');
+                calculatedObsNotAtAll.setFormNamespace('Bahmni');
 
-                 calculatedObsJustLittle =
+                calculatedObsJustLittle =
 			calculatedObsJustLittle ?: createObs(calculatedConceptNameJustLittle, parent, bahmniEncounterTransaction, obsDatetime) as BahmniObservation
                 calculatedObsJustLittle.setValue(countJustLittle)
+		calculatedObsJustLittle.setFormFieldPath('AUTISTIC HYPERACTIVITY SCALE.39/70-0');
+                calculatedObsJustLittle.setFormNamespace('Bahmni');
 
 		
                 calculatedObsPrettyMuch = 
 			calculatedObsPrettyMuch ?:createObs(calculatedConceptNamePrettyMuch, parent, bahmniEncounterTransaction, obsDatetime) as BahmniObservation
                 calculatedObsPrettyMuch.setValue(countPrettyMuch)
+		calculatedObsPrettyMuch.setFormFieldPath('AUTISTIC HYPERACTIVITY SCALE.39/71-0');
+                calculatedObsPrettyMuch.setFormNamespace('Bahmni');
 
 		 calculatedObsVeryMuch =
 			 calculatedObsVeryMuch ?: createObs(calculatedConceptNameVeryMuch,parent, bahmniEncounterTransaction, obsDatetime) as BahmniObservation
              	calculatedObsVeryMuch.setValue(countVeryMuch)
+		calculatedObsVeryMuch.setFormFieldPath('AUTISTIC HYPERACTIVITY SCALE.39/72-0');
+                calculatedObsVeryMuch.setFormNamespace('Bahmni');
 	
 		return
 		}else {
