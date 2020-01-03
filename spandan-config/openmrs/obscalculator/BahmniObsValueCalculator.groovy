@@ -57,7 +57,8 @@ public class BahmniObsValueCalculator implements ObsValueCalculator {
  static def calculateAndAdd(BahmniEncounterTransaction bahmniEncounterTransaction) {
         Collection<BahmniObservation> observations = bahmniEncounterTransaction.getObservations()
         setAutisticHyperactivityTotal( observations, bahmniEncounterTransaction)
-        setBMIDetails(observations, bahmniEncounterTransaction)
+        setUncivilizedBehaviourChecklistTotal( observations, bahmniEncounterTransaction)
+	setBMIDetails(observations, bahmniEncounterTransaction)
        	setObstetricsEDD(observations, bahmniEncounterTransaction)
         setANCEDD(observations, bahmniEncounterTransaction)
         setWaistHipRatio(observations, bahmniEncounterTransaction)
@@ -230,20 +231,33 @@ private
 	BahmniObservation observation19 = find("Often agitated", observations, null)
 
 
-		def calculatedConceptNameTotalCount = "Total Count"
+		def calculatedConceptNameTotalCount = "Total score of Autistic Hyperactivity Scale"
                 BahmniObservation calculatedObsCount = find(calculatedConceptNameTotalCount, observations, null)
 
-                def calculatedConceptNameNotAtAll = "Not at all (0)"
+                def calculatedConceptNameNotAtAll = "Not at all (0) - Count"
                 BahmniObservation calculatedObsNotAtAll = find(calculatedConceptNameNotAtAll, observations, null)
 
-                 def calculatedConceptNameJustLittle = "Just little (1)"
+		def calculatedConceptNameNotAtAllScore = "Not at all (0) - Score"
+                BahmniObservation calculatedObsNotAtAllScore = find(calculatedConceptNameNotAtAllScore, observations, null)
+
+                 def calculatedConceptNameJustLittle = "Just little (1) - Count"
                 BahmniObservation calculatedObsJustLittle = find(calculatedConceptNameJustLittle , observations, null)
 
-                def calculatedConceptNamePrettyMuch = "Pretty much (2)"
+		 def calculatedConceptNameJustLittleScore = "Just little (1) - Score"
+                BahmniObservation calculatedObsJustLittleScore = find(calculatedConceptNameJustLittleScore , observations, null)
+
+                def calculatedConceptNamePrettyMuch = "Pretty much (2) - Count"
                 BahmniObservation calculatedObsPrettyMuch = find(calculatedConceptNamePrettyMuch, observations, null)
 
-                def calculatedConceptNameVeryMuch = "Very much (3)"
+		def calculatedConceptNamePrettyMuchScore = "Pretty much (2) - Score"
+                BahmniObservation calculatedObsPrettyMuchScore = find(calculatedConceptNamePrettyMuchScore, observations, null)
+
+                def calculatedConceptNameVeryMuch = "Very much (3) - Count"
                 BahmniObservation calculatedObsVeryMuch= find(calculatedConceptNameVeryMuch, observations, null)
+
+		 def calculatedConceptNameVeryMuchScore = "Very much (3) - Score"
+                BahmniObservation calculatedObsVeryMuchScore = find(calculatedConceptNameVeryMuchScore, observations, null)
+
 
 	
         def countNotAtAll=0, countJustLittle=0, countPrettyMuch=0, countVeryMuch = 0;
@@ -290,57 +304,235 @@ private
                 calculatedObsCount = 
 			calculatedObsCount ?: createObs(calculatedConceptNameTotalCount, parent, bahmniEncounterTransaction, obsDatetime) as BahmniObservation
 		calculatedObsCount.setValue(total)
-		calculatedObsCount.setFormFieldPath('AUTISTIC HYPERACTIVITY SCALE.39/51-0');
+		calculatedObsCount.setFormFieldPath('Autistic Hyperactivity Scale.47/83-0');
                 calculatedObsCount.setFormNamespace('Bahmni');
   
 
 		calculatedObsNotAtAll =
 			calculatedObsNotAtAll ?: createObs(calculatedConceptNameNotAtAll,parent , bahmniEncounterTransaction, obsDatetime) as BahmniObservation
                 calculatedObsNotAtAll.setValue(countNotAtAll)
-		calculatedObsNotAtAll.setFormFieldPath('AUTISTIC HYPERACTIVITY SCALE.39/69-0');
+		calculatedObsNotAtAll.setFormFieldPath('Autistic Hyperactivity Scale.47/85-0');
                 calculatedObsNotAtAll.setFormNamespace('Bahmni');
+
+		calculatedObsNotAtAllScore =
+                calculatedObsNotAtAllScore ?: createObs(calculatedConceptNameNotAtAllScore, parent , bahmniEncounterTransaction, obsDatetime) as BahmniObservation
+                calculatedObsNotAtAllScore.setValue(countNotAtAll*0)
+                calculatedObsNotAtAllScore.setFormFieldPath('Autistic Hyperactivity Scale.47/86-0');
+                calculatedObsNotAtAllScore.setFormNamespace('Bahmni');
 
                 calculatedObsJustLittle =
 			calculatedObsJustLittle ?: createObs(calculatedConceptNameJustLittle, parent, bahmniEncounterTransaction, obsDatetime) as BahmniObservation
                 calculatedObsJustLittle.setValue(countJustLittle)
-		calculatedObsJustLittle.setFormFieldPath('AUTISTIC HYPERACTIVITY SCALE.39/70-0');
+		calculatedObsJustLittle.setFormFieldPath('Autistic Hyperactivity Scale.47/87-0');
                 calculatedObsJustLittle.setFormNamespace('Bahmni');
 
+		calculatedObsJustLittleScore =
+                calculatedObsJustLittleScore ?: createObs(calculatedConceptNameJustLittleScore, parent, bahmniEncounterTransaction, obsDatetime) as BahmniObservation
+                calculatedObsJustLittleScore.setValue(countJustLittle*1)
+                calculatedObsJustLittleScore.setFormFieldPath('Autistic Hyperactivity Scale.47/88-0');
+                calculatedObsJustLittleScore.setFormNamespace('Bahmni');
 		
                 calculatedObsPrettyMuch = 
 			calculatedObsPrettyMuch ?:createObs(calculatedConceptNamePrettyMuch, parent, bahmniEncounterTransaction, obsDatetime) as BahmniObservation
                 calculatedObsPrettyMuch.setValue(countPrettyMuch)
-		calculatedObsPrettyMuch.setFormFieldPath('AUTISTIC HYPERACTIVITY SCALE.39/71-0');
+		calculatedObsPrettyMuch.setFormFieldPath('Autistic Hyperactivity Scale.47/89-0');
                 calculatedObsPrettyMuch.setFormNamespace('Bahmni');
+
+		calculatedObsPrettyMuchScore =
+                calculatedObsPrettyMuchScore ?:createObs(calculatedConceptNamePrettyMuchScore, parent, bahmniEncounterTransaction, obsDatetime) as BahmniObservation
+                calculatedObsPrettyMuchScore.setValue(countPrettyMuch*2)
+                calculatedObsPrettyMuchScore.setFormFieldPath('Autistic Hyperactivity Scale.47/90-0');
+                calculatedObsPrettyMuchScore.setFormNamespace('Bahmni');
 
 		 calculatedObsVeryMuch =
 			 calculatedObsVeryMuch ?: createObs(calculatedConceptNameVeryMuch,parent, bahmniEncounterTransaction, obsDatetime) as BahmniObservation
              	calculatedObsVeryMuch.setValue(countVeryMuch)
-		calculatedObsVeryMuch.setFormFieldPath('AUTISTIC HYPERACTIVITY SCALE.39/72-0');
+		calculatedObsVeryMuch.setFormFieldPath('Autistic Hyperactivity Scale.47/91-0');
                 calculatedObsVeryMuch.setFormNamespace('Bahmni');
 	
+		 calculatedObsVeryMuchScore =
+                 calculatedObsVeryMuchScore ?: createObs(calculatedConceptNameVeryMuchScore ,parent, bahmniEncounterTransaction, obsDatetime) as BahmniObservation
+                calculatedObsVeryMuchScore.setValue(countVeryMuch*3)
+                calculatedObsVeryMuchScore.setFormFieldPath('Autistic Hyperactivity Scale.47/92-0');
+                calculatedObsVeryMuchScore.setFormNamespace('Bahmni');
+
 		return
-		}else {
-            	
-
-		if(hasValue(calculatedObsCount)) 
-                voidObs(calculatedObsCount)
-		
-		if(hasValue(calculatedObsNotAtAll)) 
-                voidObs(calculatedObsNotAtAll)
-		
-		if(hasValue(calculatedObsJustLittle)) 
-                voidObs(calculatedObsJustLittle)
-		
-		if(hasValue(calculatedObsPrettyMuch)) 
-                voidObs(calculatedObsPrettyMuch)
-		
-		if(hasValue(calculatedObsVeryMuch)) 
-                voidObs(calculatedObsVeryMuch)
-
-
-            }
+		}
     }
+
+private static void setUncivilizedBehaviourChecklistTotal(Collection<BahmniObservation> observations, BahmniEncounterTransaction bahmniEncounterTransaction) {
+
+        BahmniObservation parent = null;
+        Date obsDatetime = null;
+
+        BahmniObservation observation1 = find("Argues with adult", observations, null)
+        BahmniObservation observation2 = find("Losses temper", observations, null)
+        BahmniObservation observation3 = find("Actively defies or refuses to comply with adult’s requests or rules",observations, null)
+        BahmniObservation observation4 = find("Is angry or resentful", observations, null)
+        BahmniObservation observation5 = find("Bullies, threatens or intimidates others", observations, null)
+        BahmniObservation observation6 = find("Is spiteful and vindictive", observations, null)
+        BahmniObservation observation7 = find("Blames others for his or her mistakes or misbehaviours", observations, null)
+        BahmniObservation observation8 = find("Initiates physical fights", observations, null)
+        BahmniObservation observation9 = find("Lies to obtain goods for favors or to avoid obligations (eg,“cons” others)", observations, null)
+        
+	BahmniObservation observation10 = find("Is physically cruel to people", observations, null)
+        BahmniObservation observation11 = find("Has stolen items that have value", observations, null)
+        BahmniObservation observation12 = find("Deliberately destroys others’ property",observations, null)
+        BahmniObservation observation13 = find("Deliberately annoys people", observations, null)
+        BahmniObservation observation14 = find("Is touchy or easily annoyed by others", observations, null)
+        BahmniObservation observation15 = find("Starts physical fights", observations, null)
+        BahmniObservation observation16 = find("Is truant from school (skips school) without permission", observations, null)
+        BahmniObservation observation17 = find("Breaks rules at school", observations, null)
+        BahmniObservation observation18 = find("Has used a weapon that can cause serious harm (bat, knife, brick, gun)", observations, null)
+        BahmniObservation observation19 = find("Is physically cruel to animals", observations, null)
+
+	BahmniObservation observation20 = find("Has deliberately set fires to cause damage", observations, null)
+	BahmniObservation observation21 = find("Has destroyed things that belong to his family or others", observations, null)
+	BahmniObservation observation22 = find("Has stayed out at night without permission", observations, null)
+	BahmniObservation observation23 = find("Has run away from home overnight", observations, null)
+	BahmniObservation observation24 = find("Has forced someone into sexual activity", observations, null)
+	BahmniObservation observation25 = find("Bragging, Boasting", observations, null)
+	BahmniObservation observation26 = find("Deliberately harms self", observations, null)
+	BahmniObservation observation27 = find("Disobedient at school", observations, null)
+	BahmniObservation observation28 = find("Use Obscene language", observations, null)
+        BahmniObservation observation29 = find("Lewd gestures/ comments", observations, null)
+
+        BahmniObservation observation30 = find("Lack of empathy and concern for others", observations, null)
+        BahmniObservation observation31 = find("Lack of guilt", observations, null)
+        BahmniObservation observation32 = find("Lack of interest in studies", observations, null)
+        BahmniObservation observation33 = find("Drugs, smokes, drinks alcohols", observations, null)
+        BahmniObservation observation34 = find("Impulsive or acts without thinking", observations, null)
+        BahmniObservation observation35 = find("Has run away from home overnight and has stayed out at night", observations, null)
+
+		def calculatedConceptNameTotalValue = "Total value of Uncivilized Behaviour Checklist"
+                BahmniObservation calculatedObsCount = find(calculatedConceptNameTotalValue, observations, null)
+
+                def calculatedConceptNameNotAtAll = "Not at all - Count"
+                BahmniObservation calculatedObsNotAtAll = find(calculatedConceptNameNotAtAll, observations, null)
+
+		def calculatedConceptNameNotAtAllScore = "Not at all - Score"
+                BahmniObservation calculatedObsNotAtAllScore = find(calculatedConceptNameNotAtAllScore, observations, null)
+
+                 def calculatedConceptNameMild = "MIld (1) - Count"
+                BahmniObservation calculatedObsMild = find(calculatedConceptNameMild , observations, null)
+
+		 def calculatedConceptNameMildScore = "Mild (1) - Score"
+                BahmniObservation calculatedObsMildScore = find(calculatedConceptNameMildScore , observations, null)
+
+                def calculatedConceptNameModerate = "Moderate (2) - Count"
+                BahmniObservation calculatedObsModerate = find(calculatedConceptNameModerate, observations, null)
+
+		def calculatedConceptNameModerateScore = "Moderate (2) - Score"
+                BahmniObservation calculatedObsModerateScore = find(calculatedConceptNameModerateScore, observations, null)
+
+                def calculatedConceptNameExtreme = "Extreme (3) - Count"
+                BahmniObservation calculatedObsExtreme= find(calculatedConceptNameExtreme, observations, null)
+
+		def calculatedConceptNameExtremeScore = "Extreme (3) - Score"
+                BahmniObservation calculatedObsExtremeScore = find(calculatedConceptNameExtremeScore, observations, null)
+
+
+
+        def countNotAtAll=0, countMild=0, countModerate=0, countExtreme = 0;
+
+        def observationsArray = [observation1,observation2,observation3,observation4 ,observation5 ,observation6 ,observation7
+                                        ,observation8,observation9 ,observation10 ,observation11 ,observation12,observation13
+					,observation14,observation15 ,observation16 ,observation17,observation18 ,observation19
+					,observation20,observation21,observation22,observation23,observation24,observation25
+					,observation26,observation27,observation28,observation29,observation30,observation31
+					,observation32,observation33,observation34,observation35];
+
+    for (BahmniObservation obs : observationsArray) {
+                        if(hasValue(obs)){
+                                def value = null
+                                if (obs.getValue().name instanceof String) {
+                                          value = obs.getValue().name
+                                }
+                                else{
+                                        value = obs.getValue().name.display
+                                }
+
+
+                        if(value == 'Not at all')
+                                countNotAtAll= countNotAtAll + 1;
+
+                         if(value =='Mild')
+                              countMild = countMild+1;
+
+                         if(value == 'Moderate')
+                               countModerate= countModerate+1;
+
+                         if(value == 'Extreme')
+                                 countExtreme = countExtreme+1;
+                        }
+                }
+
+		if(hasValue(observation1)){
+                parent = obsParent(observation1, null)
+                obsDatetime = getDate(observation1)
+
+                def total = countMild +  (countModerate*2) + (countExtreme*3) ;
+
+                 calculatedObsCount =
+                        calculatedObsCount ?: createObs(calculatedConceptNameTotalValue,parent, bahmniEncounterTransaction, obsDatetime) as BahmniObservation
+                calculatedObsCount.setValue(total)
+                calculatedObsCount.setFormFieldPath('Uncivilized Behaviour Checklist.14/49-0');
+                calculatedObsCount.setFormNamespace('Bahmni');
+
+		 calculatedObsNotAtAll =
+                        calculatedObsNotAtAll ?: createObs(calculatedConceptNameNotAtAll,parent , bahmniEncounterTransaction, obsDatetime) as BahmniObservation
+                calculatedObsNotAtAll.setValue(countNotAtAll)
+                calculatedObsNotAtAll.setFormFieldPath('Uncivilized Behaviour Checklist.14/65-0');
+                calculatedObsNotAtAll.setFormNamespace('Bahmni');
+
+		calculatedObsNotAtAllScore =
+                calculatedObsNotAtAllScore ?: createObs(calculatedConceptNameNotAtAllScore, parent , bahmniEncounterTransaction, obsDatetime) as BahmniObservation
+                calculatedObsNotAtAllScore.setValue(countNotAtAll*0)
+                calculatedObsNotAtAllScore.setFormFieldPath('Uncivilized Behaviour Checklist.14/66-0');
+                calculatedObsNotAtAllScore.setFormNamespace('Bahmni');
+
+
+                calculatedObsMild =
+                        calculatedObsMild ?: createObs(calculatedConceptNameMild , parent, bahmniEncounterTransaction, obsDatetime) as BahmniObservation
+                calculatedObsMild.setValue(countMild)
+                calculatedObsMild.setFormFieldPath('Uncivilized Behaviour Checklist.14/58-0');
+                calculatedObsMild.setFormNamespace('Bahmni');
+
+		calculatedObsMildScore =
+                calculatedObsMildScore ?: createObs(calculatedConceptNameMildScore , parent, bahmniEncounterTransaction, obsDatetime) as BahmniObservation
+                calculatedObsMildScore.setValue(countMild*1)
+                calculatedObsMildScore.setFormFieldPath('Uncivilized Behaviour Checklist.14/59-0');
+                calculatedObsMildScore.setFormNamespace('Bahmni');
+
+                calculatedObsModerate =
+                        calculatedObsModerate ?:createObs(calculatedConceptNameModerate, parent, bahmniEncounterTransaction, obsDatetime) as BahmniObservation
+                calculatedObsModerate.setValue(countModerate)
+                calculatedObsModerate.setFormFieldPath('Uncivilized Behaviour Checklist.14/61-0');
+                calculatedObsModerate.setFormNamespace('Bahmni');
+
+		calculatedObsModerateScore =
+                calculatedObsModerateScore ?:createObs(calculatedConceptNameModerateScore, parent, bahmniEncounterTransaction, obsDatetime) as BahmniObservation
+                calculatedObsModerateScore.setValue(countModerate*2)
+                calculatedObsModerateScore.setFormFieldPath('Uncivilized Behaviour Checklist.14/62-0');
+                calculatedObsModerateScore.setFormNamespace('Bahmni');
+
+                 calculatedObsExtreme =
+                         calculatedObsExtreme ?: createObs(calculatedConceptNameExtreme ,parent, bahmniEncounterTransaction, obsDatetime) as BahmniObservation
+                calculatedObsExtreme.setValue(countExtreme)
+                calculatedObsExtreme.setFormFieldPath('Uncivilized Behaviour Checklist.14/63-0');
+                calculatedObsExtreme.setFormNamespace('Bahmni');
+
+		calculatedObsExtremeScore =
+                calculatedObsExtremeScore ?: createObs(calculatedConceptNameExtremeScore ,parent, bahmniEncounterTransaction, obsDatetime) as BahmniObservation
+                calculatedObsExtremeScore.setValue(countExtreme*3)
+                calculatedObsExtremeScore.setFormFieldPath('Uncivilized Behaviour Checklist.14/64-0');
+                calculatedObsExtremeScore.setFormNamespace('Bahmni');
+
+		return
+		}
+
+
+}
 
 
     private static BahmniObservation obsParent(BahmniObservation child, BahmniObservation parent) {
