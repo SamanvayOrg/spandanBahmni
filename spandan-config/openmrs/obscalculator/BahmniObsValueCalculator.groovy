@@ -770,3 +770,4 @@ private static void setUncivilizedBehaviourChecklistTotal(Collection<BahmniObser
         }
     }
 }
+

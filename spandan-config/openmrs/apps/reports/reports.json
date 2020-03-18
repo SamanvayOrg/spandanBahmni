@@ -1,23 +1,393 @@
 {
-    "patientReport": {
-         "name": "Patient Information",
-         "type": "PatientReport"
-  },
- "annualIncomeCountReport": {
-         "name": "Count of Annual Income Group",
-         "type": "MRSGeneric",
-         "config": {
-               "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/testCount.sql"
-         }
- },
- "diagnosisCountReport": {
-     "name": "Diagnosis Count Report",
-     "type": "diagnosisCount",
-     "config": {
-         "visitTypes": [
-             "OPD",
-             "IPD"
-         ]
-     }
- }  
+   	"patientReport": {
+        	"name": "Patient Registration Report",
+        	"type": "PatientReport"
+     },
+	"drugOrderReport":{
+        "name": "Drug Order report",
+        "type":"DrugOrder"
+	},	
+	"formBuilderReport14":{
+        "name": "Anesthesia Management Record form Report",
+        "type": "formBuilder",
+        "config": {
+            "patientAttributes": [],
+            "patientAddresses": [],
+            "visitAttributes": [],
+            "showVisitInfo": false,
+            "showProvider": false,
+            "formNamesToFilter": [ "Anesthesia Management Record"],
+            "conceptNameDisplayFormat": "shortNamePreferred",
+            "locationTagsToFilter": [],
+            "programsToFilter": [],
+            "applyDateRangeFor": "obsDate",
+            "visitTypesToFilter": []
+        }
+    },
+	"formBuilderReport15":{
+        "name": "Antenatal Case record form Report",
+        "type": "formBuilder",
+        "config": {
+            "patientAttributes": [],
+            "patientAddresses": [],
+            "visitAttributes": [],
+            "showVisitInfo": false,
+            "showProvider": false,
+            "formNamesToFilter": [ "Antenatal Case record"],
+            "conceptNameDisplayFormat": "shortNamePreferred",
+            "locationTagsToFilter": [],
+            "programsToFilter": [],
+            "applyDateRangeFor": "obsDate",
+            "visitTypesToFilter": []
+        }
+    },
+
+	"formBuilderReport1":{
+        "name": "Autistic Hyperactivity Scale form Report",
+        "type": "formBuilder",
+        "config": {
+            "patientAttributes": [],
+            "patientAddresses": [],
+            "visitAttributes": [],
+            "showVisitInfo": false,
+            "showProvider": false,
+            "formNamesToFilter": [ "Autistic Hyperactivity Scale"],
+            "conceptNameDisplayFormat": "shortNamePreferred",
+            "locationTagsToFilter": [],
+            "programsToFilter": [],
+            "applyDateRangeFor": "obsDate",
+            "visitTypesToFilter": []
+        }
+    },
+	 "formBuilderReport2":{
+        "name": "Case Record Medical Genetics form Report",
+        "type": "formBuilder",
+        "config": {
+            "patientAttributes": [],
+            "patientAddresses": [],
+            "visitAttributes": [],
+            "showVisitInfo": false,
+            "showProvider": false,
+            "formNamesToFilter": ["Case Record Medical Genetics"],
+            "conceptNameDisplayFormat": "shortNamePreferred",
+            "locationTagsToFilter": [],
+            "programsToFilter": [],
+            "applyDateRangeFor": "obsDate",
+            "visitTypesToFilter": []
+        }
+    },
+	 "formBuilderReport3":{
+        "name": "Child Care Camp Synopsis form Report",
+        "type": "formBuilder",
+        "config": {
+            "patientAttributes": [],
+            "patientAddresses": [],
+            "visitAttributes": [],
+            "showVisitInfo": false,
+            "showProvider": false,
+            "formNamesToFilter": ["Child Care Camp Synopsis"],
+            "conceptNameDisplayFormat": "shortNamePreferred",
+            "locationTagsToFilter": [],
+            "programsToFilter": [],
+            "applyDateRangeFor": "obsDate",
+            "visitTypesToFilter": []
+        }
+    },
+ 	"formBuilderReport4":{
+        "name": "Child Care Case Record Report",
+        "type": "formBuilder",
+        "config": {
+            "patientAttributes": [],
+            "patientAddresses": [],
+            "visitAttributes": [],
+            "showVisitInfo": false,
+            "showProvider": false,
+            "formNamesToFilter": ["Child Care Case Record"],
+            "conceptNameDisplayFormat": "shortNamePreferred",
+            "locationTagsToFilter": [],
+            "programsToFilter": [],
+            "applyDateRangeFor": "obsDate",
+            "visitTypesToFilter": []
+        }
+    },
+
+
+	"formBuilderReport5":{
+        "name": "Child Care Case Synopsis form Report",
+        "type": "formBuilder",
+        "config": {
+            "patientAttributes": [],
+            "patientAddresses": [],
+            "visitAttributes": [],
+            "showVisitInfo": false,
+            "showProvider": false,
+            "formNamesToFilter": ["Child Care Case Synopsis"],
+            "conceptNameDisplayFormat": "shortNamePreferred",
+            "locationTagsToFilter": [],
+            "programsToFilter": [],
+            "applyDateRangeFor": "obsDate",
+            "visitTypesToFilter": []
+        }
+    },
+
+	"formBuilderReport16":{
+        "name": "Child Care Followup form Report",
+        "type": "formBuilder",
+        "config": {
+            "patientAttributes": [],
+            "patientAddresses": [],
+            "visitAttributes": [],
+            "showVisitInfo": false,
+            "showProvider": false,
+            "formNamesToFilter": ["Child Care Followup"],
+            "conceptNameDisplayFormat": "shortNamePreferred",
+            "locationTagsToFilter": [],
+            "programsToFilter": [],
+            "applyDateRangeFor": "obsDate",
+            "visitTypesToFilter": []
+        }
+    },
+
+	"formBuilderReport6":{
+        "name": "Child Care Visit Log form Report",
+        "type": "formBuilder",
+        "config": {
+            "patientAttributes": [],
+            "patientAddresses": [],
+            "visitAttributes": [],
+            "showVisitInfo": false,
+            "showProvider": false,
+            "formNamesToFilter": ["Child Care Visit Log"],
+            "conceptNameDisplayFormat": "shortNamePreferred",
+            "locationTagsToFilter": [],
+            "programsToFilter": [],
+            "applyDateRangeFor": "obsDate",
+            "visitTypesToFilter": []
+        }
+    },
+	"formBuilderReport17":{
+        "name": "Discharge Summary Sheet form Report",
+        "type": "formBuilder",
+        "config": {
+            "patientAttributes": [],
+            "patientAddresses": [],
+            "visitAttributes": [],
+            "showVisitInfo": false,
+            "showProvider": false,
+            "formNamesToFilter": ["Discharge Summary Sheet"],
+            "conceptNameDisplayFormat": "shortNamePreferred",
+            "locationTagsToFilter": [],
+            "programsToFilter": [],
+            "applyDateRangeFor": "obsDate",
+            "visitTypesToFilter": []
+        }
+    },
+
+	"formBuilderReport7":{
+        "name": "Gynecology form Report",
+        "type": "formBuilder",
+        "config": {
+            "patientAttributes": [],
+            "patientAddresses": [],
+            "visitAttributes": [],
+            "showVisitInfo": false,
+            "showProvider": false,
+            "formNamesToFilter": ["Gynecology"],
+            "conceptNameDisplayFormat": "shortNamePreferred",
+            "locationTagsToFilter": [],
+            "programsToFilter": [],
+            "applyDateRangeFor": "obsDate",
+            "visitTypesToFilter": []
+        }
+    },
+
+
+ 	"formBuilderReport8":{
+        "name": "HIV Followup form Report",
+        "type": "formBuilder",
+        "config": {
+            "patientAttributes": [],
+            "patientAddresses": [],
+            "visitAttributes": [],
+            "showVisitInfo": false,
+            "showProvider": false,
+            "formNamesToFilter": ["HIV Followup"],
+            "conceptNameDisplayFormat": "shortNamePreferred",
+            "locationTagsToFilter": [],
+            "programsToFilter": [],
+            "applyDateRangeFor": "obsDate",
+            "visitTypesToFilter": []
+        }
+    },
+	"formBuilderReport9":{
+        "name": "HIV Intake form Report",
+        "type": "formBuilder",
+        "config": {
+            "patientAttributes": [],
+            "patientAddresses": [],
+            "visitAttributes": [],
+            "showVisitInfo": false,
+            "showProvider": false,
+            "formNamesToFilter": ["HIV Intake"],
+            "conceptNameDisplayFormat": "shortNamePreferred",
+            "locationTagsToFilter": [],
+            "programsToFilter": [],
+            "applyDateRangeFor": "obsDate",
+            "visitTypesToFilter": []
+        }
+    }, 
+	 "formBuilderReport18":{
+        "name": "Labour Record form Report",
+        "type": "formBuilder",
+        "config": {
+            "patientAttributes": [],
+            "patientAddresses": [],
+            "visitAttributes": [],
+            "showVisitInfo": false,
+            "showProvider": false,
+            "formNamesToFilter": ["Labour Record"],
+            "conceptNameDisplayFormat": "shortNamePreferred",
+            "locationTagsToFilter": [],
+            "programsToFilter": [],
+            "applyDateRangeFor": "obsDate",
+            "visitTypesToFilter": []
+        }
+    },
+	 "formBuilderReport19":{
+        "name": "Nurses record form Report",
+        "type": "formBuilder",
+        "config": {
+            "patientAttributes": [],
+            "patientAddresses": [],
+            "visitAttributes": [],
+            "showVisitInfo": false,
+            "showProvider": false,
+            "formNamesToFilter": ["Nurses record and reports"],
+            "conceptNameDisplayFormat": "shortNamePreferred",
+            "locationTagsToFilter": [],
+            "programsToFilter": [],
+            "applyDateRangeFor": "obsDate",
+            "visitTypesToFilter": []
+        }
+    },
+	"formBuilderReport20":{
+        "name": "Obstetrics and Gynecology Patients form Report",
+        "type": "formBuilder",
+        "config": {
+            "patientAttributes": [],
+            "patientAddresses": [],
+            "visitAttributes": [],
+            "showVisitInfo": false,
+            "showProvider": false,
+            "formNamesToFilter": ["Obstetrics and Gynecology Patients"],
+            "conceptNameDisplayFormat": "shortNamePreferred",
+            "locationTagsToFilter": [],
+            "programsToFilter": [],
+            "applyDateRangeFor": "obsDate",
+            "visitTypesToFilter": []
+        }
+    },
+
+        "formBuilderReport10":{
+        "name": "OT Form Report",
+        "type": "formBuilder",
+        "config": {
+            "patientAttributes": [],
+            "patientAddresses": [],
+            "visitAttributes": [],
+            "showVisitInfo": false,
+            "showProvider": false,
+            "formNamesToFilter": ["OT Form"],
+            "conceptNameDisplayFormat": "shortNamePreferred",
+            "locationTagsToFilter": [],
+            "programsToFilter": [],
+            "applyDateRangeFor": "obsDate",
+            "visitTypesToFilter": []
+        }
+    },
+	"formBuilderReport21":{
+        "name": "Pre Anesthesia check up Form Report",
+        "type": "formBuilder",
+        "config": {
+            "patientAttributes": [],
+            "patientAddresses": [],
+            "visitAttributes": [],
+            "showVisitInfo": false,
+            "showProvider": false,
+            "formNamesToFilter": ["Pre Anesthesia check up"],
+            "conceptNameDisplayFormat": "shortNamePreferred",
+            "locationTagsToFilter": [],
+            "programsToFilter": [],
+            "applyDateRangeFor": "obsDate",
+            "visitTypesToFilter": []
+        }
+    },
+	"formBuilderReport22":{
+        "name": "Progress Notes and Doctor Records Form Report",
+        "type": "formBuilder",
+        "config": {
+            "patientAttributes": [],
+            "patientAddresses": [],
+            "visitAttributes": [],
+            "showVisitInfo": false,
+            "showProvider": false,
+            "formNamesToFilter": ["Progress Notes and Doctor Records"],
+            "conceptNameDisplayFormat": "shortNamePreferred",
+            "locationTagsToFilter": [],
+            "programsToFilter": [],
+            "applyDateRangeFor": "obsDate",
+            "visitTypesToFilter": []
+        }
+    },
+	"formBuilderReport12":{
+        "name": "Remedy response comprehension Form Report",
+        "type": "formBuilder",
+        "config": {
+            "patientAttributes": [],
+            "patientAddresses": [],
+            "visitAttributes": [],
+            "showVisitInfo": false,
+            "showProvider": false,
+            "formNamesToFilter": ["Remedy response comprehension"],
+            "conceptNameDisplayFormat": "shortNamePreferred",
+            "locationTagsToFilter": [],
+            "programsToFilter": [],
+            "applyDateRangeFor": "obsDate",
+            "visitTypesToFilter": []
+        }
+    },
+	"formBuilderReport13":{
+        "name": "Uncivilized Behaviour Checklist Form Report",
+        "type": "formBuilder",
+        "config": {
+            "patientAttributes": [],
+            "patientAddresses": [],
+            "visitAttributes": [],
+            "showVisitInfo": false,
+            "showProvider": false,
+            "formNamesToFilter": ["Uncivilized Behaviour Checklist"],
+            "conceptNameDisplayFormat": "shortNamePreferred",
+            "locationTagsToFilter": [],
+            "programsToFilter": [],
+            "applyDateRangeFor": "obsDate",
+            "visitTypesToFilter": []
+        }
+    },
+	"annualIncomeCountReport": {
+    		"name": "Count of Annual Income Group",
+    		"type": "MRSGeneric",
+    		"config": {
+      			"sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/testCount.sql"
+    		}
+	},
+	"diagnosisCountReport": {
+        "name": "Diagnosis Count Report",
+        "type": "diagnosisCount",
+        "config": {
+            "visitTypes": [
+                "OPD",
+                "IPD"
+            ]
+        }
+    }  
 }

@@ -1,0 +1,786 @@
+{
+    "general":{
+        "translationKey": "DASHBOARD_TAB_GENERAL_KEY",
+        "displayByDefault": true,
+        "printing": {
+	"title": "Spandan Holistic Mother and Child Care Hospital",
+            "header": "Visit",
+            "logo": "../images/spandanLogo.png"
+        },
+        "defaultSections": true,
+        "sections": {
+            "pivotTable":{
+                "type": "pivotTable",
+                "displayOrder": 0,
+                "title": "Vitals Flowsheet",
+                "config": {
+                    "groupBy": "encounters",
+                    "obsConcepts": [
+                        "Pulse",
+                        "Diastolic",
+                        "Systolic",
+                        "Temperature",
+                        "Height",
+                        "WEIGHT"
+                    ],
+                    "labConcepts": ""
+                }
+            },
+            "pacsOrders":{
+                "type":"pacsOrders",
+                "displayOrder": 1,
+                "translationKey": "PACS_ORDERS_VISIT_PAGE_KEY",
+                "config":{
+                    "orderType": "Radiology Order"
+                }
+            },
+            "conditions": {
+                "title": "Conditions",
+                "type": "conditionsList",
+                "displayOrder": 2,
+                "config": { }
+            }
+        }
+    },
+    "dischargeSummary":{
+        "translationKey": "DASHBOARD_TAB_DISCHARGE_SUMMARY_KEY",
+        "printing": {
+            "title": "Spandan Holistic Mother and Child Care Hospital",
+            "header": "Discharge Summary",
+            "logo": "../images/spandanLogo.png"
+        },
+        "sections": {
+            "PatientInformation":{
+                "type": "patientInformation",
+                "displayOrder": 0,
+                "config": {
+                    "title": "PatientInformation",
+                    "patientAttributes": ["caste", "class", "education", "occupation", "RationCard", "familyIncome"],
+                    "addressFields": ["address1", "address2", "cityVillage", "countyDistrict"]
+                }
+            },
+            "admissionDetails":{
+                "type": "admissionDetails",
+                "displayOrder": 1,
+                "config": {
+                    "showDetailsButton": true,
+                    "translationKey": "DISCHARGE_SUMMARY_ADMISSION_DETAILS_KEY"
+
+                }
+            },
+            "weightInitial":{
+                "type": "observation",
+                "displayOrder": 2,
+                "translationKey":"DISCHARGE_SUMMARY_AT_ADMISSION_KEY",
+                "config": {
+                    "conceptNames": ["WEIGHT"],
+                    "scope": "initial"
+                }
+            },
+            "weightLatest": {
+                "type": "observation",
+                "displayOrder": 3,
+                "translationKey":"DISCHARGE_SUMMARY_AT_DISCHARGE_KEY",
+                "config": {
+                    "conceptNames": ["Anesthesia Management Record"],
+                    "scope": "latest"
+                }
+            },
+            "diagnosis":{
+                "type": "diagnosis",
+                "displayOrder": 4,
+                "config": {
+                    "translationKey" : "DISCHARGE_SUMMARY_DIAGNOSIS_KEY",
+                    "showCertainty": false,
+                    "showOrder": false,
+                    "showDetailsButton": true
+                }
+            },
+            "clinicalNotes":{
+                "type": "observation",
+                "displayOrder": 5,
+                "translationKey": "DISCHARGE_SUMMARY_CLINICAL_NOTES_KEY",
+                "config": {
+                    "conceptNames": [
+           		"Head of Service / Unit Chief",
+                        "Diagnosis",
+                        "ICD Code",
+                        "Surgery if any",
+                        "If Delivered, date and time of delivery:",
+                        "Sex of baby",
+                        "Weight of baby",
+                        "Attending Physician",
+                        "Primary Physician on case",
+                        "Referring Physician",
+	   		"Counsulting Physician/s",
+			"Condition on Discharge",
+			"Chief Complaint/s",
+			"On Examination",
+			"Investigation",
+			"Treatment given",
+			"Discharge Medications",
+			"Discharge Instructions",
+			"DIctated By",
+			"If referred to another institution, name of that institution",
+			"Cause of Referral",
+
+	                "History and Examination Notes",
+                        "Discharge Summary",
+                        "Lab Investigation Notes",
+                        "Radiology Notes",
+                        "Other Notes"
+                    ],
+                    "scope": "latest",
+                    "numberOfVisits": "1"
+                }
+            },
+            "labInvestigations":{
+                "type": "investigationResult",
+                "displayOrder": 6,
+                "config": {
+                    "translationKey":"LAB_INVESTIGATION",
+                    "showChart": true,
+                    "showTable": false,
+                    "showNormalLabResults": true,
+                    "showCommentsExpanded": true,
+                    "showAccessionNotes": true,
+                    "numberOfVisits": 10,
+                    "initialAccessionCount": 1,
+                    "latestAccessionCount": 1
+                }
+            },
+            "Treatments": {
+                "type": "treatment",
+                "displayOrder": 6,
+                "config": {
+                    "translationKey": "VISIT_TITLE_TREATMENTS_KEY",
+                    "showFlowSheet": true,
+                    "showListView": true,
+                    "showOtherActive": false,
+                    "showDetailsButton": true,
+                    "showRoute": true,
+                    "showDrugForm": true,
+                    "showProvider":false
+                }
+            },
+            "adviceOnDischarge":{
+                "type": "observation",
+                "displayOrder": 8,
+                "translationKey":"DISCHARGE_SUMMARY_ADVICE_ON_DISCHARGE_KEY",
+                "config": {
+                    "conceptNames": [
+                        "Additional Advice on Discharge",
+                        "Followup Appointment",
+                        "Discharge Summary, Plan for follow up"
+                    ],
+                    "scope": "latest"
+                }
+            }
+        }
+    },
+    "childCareCaseRecord": {
+    "translationKey": "DASHBOARD_TITLE_Child_Care_Case_Recording_KEY",
+    "printing": {
+        "title": "Spandan Holistic Mother and Child Care Hospital",
+        "header": "Child Care Case Record",
+        "logo": "../images/spandanLogo.png"
+    },
+    "sections": {
+	"PatientInformation":{
+                "type": "patientInformation",
+                "displayOrder": 0,
+                "config": {
+                    "title": "PatientInformation",
+                    "patientAttributes": ["caste", "class", "education", "occupation", "RationCard", "familyIncome"],
+                    "addressFields": ["address1", "address2", "cityVillage", "countyDistrict"]
+                }
+            },
+        "Child Care Case Recording": {
+            "type": "observation",
+	    "displayOrder": 1,
+             "translationKey":"DASHBOARD_TITLE_Child_Care_Case_Recording_KEY",
+		"config": {
+                "title": "Child Care Case Recording",
+	        "conceptNames": [
+                        "Attending Physician",
+			"Homeopathic consultant",
+			"Index Letter",
+			"Research code",
+			"Language at home",
+			"Language at school",
+			"Diet",
+			"Name and address of school",
+			"Class/Standard",
+			"Father's details",
+			"Mother's details",
+			"H/O Consanguinity in Parents",
+			"Brothers",
+			"Sisters",
+			"Total no. of family members",
+			"Total earning members in family",
+			"Referred by",
+			"Camp / Screening at School / Other Institute",
+			"Contact Details",
+			"Address",
+			"Resi.: (Tel.)",
+			"Father's mobile number",
+			"Mother's mobile no",
+			"E-mail",
+
+			"Child care case, Chief Complaints",
+                        "Child care case, Assosciated Complaints",
+                        "Mother's age at time of conception",
+                        "Father's age at time of conception",
+                        "Gravida",
+                        "Parity",
+                        "Abortion",
+                        "Attitude towards pregnancy",
+                        "Type of Pregnancy",
+                        "Physical aspect during first 3 months",
+                        "Any illness during pregnancy Diseases, Treatment taken :",
+                        "Emotional state during pregnancy and family situation",
+                        "History of any miscarriages or abortions",
+                        "Miscarriages or abortion, If yes then when",
+                        "Any treatment taken to conceive during pregnancy",
+                        "Term of pregnancy",
+                        "Place and type of delivery",
+                        "Birth Weight",
+                        "Birth Cry",
+                        "Immediate post natal problem if any",
+                        "Any congenital defects",
+                        "Physical Disability",
+
+			"Follows light",
+			"Head Holding",
+			"Rolling Over",
+			"Grasping Objects",
+			"Sitting without support",
+			"Crawling",
+			"Teething",
+			"Standing with support",
+			"Standing without support",
+			"Walking with Support",
+			"Walking without Support",
+
+			"Vocalization",
+			"Babbling",
+			"Monosyllables of Da-Ma-Ka",
+			"Double Syllable Da-da Ma-ma Ba - ba",
+			"First meaningful syllables / words",
+			"Full sentences",
+	
+			"Bladder Control",
+                        "Bowel Control",
+                        "Recognition of Mother",
+                        "Social Smile",
+                        "Following persons or objects",
+                        "Responds to name",
+                        "Looks towards object or person asked for",
+                        "Understands denials by interruption of action",
+                        "Milestones",
+			"Mention causative factors if known",
+			"Immunization",
+			"Any marked aggravation or other side effects after immunization",
+
+			"Please elaborate on duration / intensity and consequences of illness",
+			"Severe malnutrition in infancy and early childhood",
+			"Kwashiorkor (oedema, skin changed, hair etc. in infancy and early childhood)",
+			"Anemia - pigmentation - tremor syndrome",
+			"Complications following : Whooping Cough, Measles and other infections diseases.",
+			"Spasms",
+			"Tuberculosis",
+			"Acute Diarrhea",
+			"Hyperpyrexia (above 104 F - 105 F)",
+			"Adenoids Bronchiolitis",
+			"Exanthema German",
+			"Injuries / Traumas",
+			"Skin Diseases",
+			"Meningitis",
+			"Drowsiness",
+			"Chicken Pox",
+			"Mumps",
+			"Congenital Hernias",
+			"Operations",
+			"Typhoid",
+			"Enuresis",
+			"Measles",
+			"Rheumatic Heart Diseases",
+			"Allergies",
+
+			"Brothers, Sisters and Cousins",
+			"Parents, Uncles and Aunts",
+			"Grandparents",
+			"Other distant relatives significant illness",
+			
+			"Name and Address of the school attending at present",
+			"Class in at present",
+			"School timings",
+			"Medium of instruction",
+			"Age of starting school",
+			"Names and dates of school attended in the past and reasons for changing",
+			"Any change in medium of instruction",
+			"Early school experience",
+			"Regularly in school",
+			"Adjustment in school: with teachers, with peers",
+			"Interest in studies",
+			"Academic performance",
+			"Any change in performance in the school",
+			"Any discontinuation or failure in studies (specify the period, class and possible reason)",
+			"Any specific learning disability",
+			"Participation in school activities",
+			"Participation in academics/extra-circular activities",
+			"Any prizes won in academics/ extra-circular activities",
+			"Attitude of teachers, school an the reties, peers towards child's problems",
+
+			"General appearance and type",
+			"Sleep",
+			"Dreams",
+			"Thermal State:",
+
+			"Life Space",
+			"Thoughts",
+			"Intensity of expression - Thoughts",
+			"Concentration, Child Care Case Record",
+			"Intensity of expression - Concentration",
+			"Comprehension",
+			"Intensity of expression - Comprehension",
+			"Mistakes in Reading",
+			"Intensity of expression- Mistakes in Reading",
+			"Mistakes in Writing",
+			"Intensity of expression - Mistakes in writing",
+			"Spatial Mistakes",
+			"Intensity of expression - Spatial Mistakes",
+			"Memory",
+			"Intensity of expression - Memory",
+			"Abstraction and Reasoning",
+			"Intensity of expression - Abstraction and Reasoning",
+			"Co-ordination",
+			"Intensity of expression - Co-ordination",
+			"Communication and Speech Mistakes",
+
+			"Intensity of expression - Communication and Speech Mistakes",
+			"Speech mistakes",
+			"Intensity of expression - Speech mistakes",
+			"Talking mistakes",
+			"Intensity of expression - Talking mistakes",
+			"Voice",
+			"Intensity of expression - Voice",
+			"Extra Sensory Perception",
+			"Intensity of expression - Extra Sensory Perception",
+			"Fancy / Fantasy / Imagination",
+			"Intensity of expression - Fancy / Fantasy / Imagination",
+			"Sensory Pattern",
+			"Sensitivity",
+			"Intensity of expression - Sensitivity",
+			"Love",
+			"Intensity of expression - Love",
+			"Hate",
+			"Intensity of expression - Hate",
+			"Jealousy",
+			"Intensity of expression - Jealousy",
+			"Neglect",
+			"Intensity of expression - Neglect",
+			"Irritability",
+			"Intensity of expression - Irritability",
+			"Self Injurious",
+			"Intensity of expression - Self Injurious",
+
+			"Ego",
+			"Intensity of expression - Ego",
+			"Conscience",
+			"Intensity of expression - Conscience",
+			"Religiosity",
+			"Intensity of expression - Religiosity",
+			"Self Esteem",
+			"Intensity of expression - Self Esteem",
+			"Fears : Aliments",
+			"Intensity of expression - Fears : Aliments",
+
+			"Anxiety",
+			"Intensity of expression - Anxiety",
+			"Insecure",
+			"Intensity of expression - Insecure",
+			"Sadness Grief",
+			"Intensity of expression - Sadness Grief",
+			"Experience of Catastrophic Events",
+			"Intensity of expression - Experience of Catastrophic Events",
+
+			"Trust/ Mistrust",
+			"Intensity of expression - Trust/ Mistrust",
+			"Kinetic",
+			"Intensity of expression - Kinetic",
+			"Benign Hyperactive",
+			"Intensity of expression - Benign Hyperactive",
+			"Repetitive Actions",
+			"Intensity of expression - Repetitive Actions",
+			"Stereotype Behaviour",
+			"Intensity of expression - Stereotype Behaviour",
+			"Inattention",
+			"Intensity of expression - Inattention",
+			"Inactive",
+			"Intensity of expression - Inactive",
+			"Inattention"
+                    ]                
+                }
+            }      
+	}
+    },
+ "childCareCaseProcessing": {
+    "translationKey": "DASHBOARD_TITLE_Child_Care_Case_Processing_KEY",
+    "printing": {
+        "title": "Spandan Holistic Mother and Child Care Hospital",
+        "header": "Child Care Case Processing",
+        "logo": "../images/spandanLogo.png"
+    },
+    "sections": {
+        "PatientInformation":{
+                "type": "patientInformation",
+                "displayOrder": 0,
+                "config": {
+                    "title": "PatientInformation",
+                    "patientAttributes": ["caste", "class", "education", "occupation", "RationCard", "familyIncome"],
+                    "addressFields": ["address1", "address2", "cityVillage", "countyDistrict"]
+                }
+            },
+        "ChildCareCaseProcessing":{
+            "type": "observation",
+            "displayOrder": 1,
+             "translationKey":"DASHBOARD_TITLE_Child_Care_Case_Processing_KEY",
+                "config": {
+                        "conceptNames": [
+                        "Summary of Investigation",
+                        "Data processing - Clinicopathological correlations",
+                        "Data Processing - Psychological",
+                        "Qualified peculiar features from Complaints to mental state",
+                        "Represent Degree, Depth and Specificity of Qualified Features",
+                        "Bring our appropriate correlations to evolve pattern",
+
+                        "Pre-Disposition",
+                        "Family History, Miasmatic Classification",
+                        "Past History",
+                        "Genetic Load",
+                        "Suppression",
+                        "Diathesis",
+                        "Prodrome",
+                        "Functional Phase",
+                        "Structural Phase",
+                        "Complications",
+                        "Sequelae",
+                        "Qualified",
+                        "Expressions",
+                        "Behaviour",
+                        "Emotion",
+                        "Intellect",
+                        "Physical",
+                        "Dispositional Pattern",
+                        "State",
+                        "Sensory Pattern, Miasmatic Classification",
+                        "Motor Pattern",
+                        "Modalities",
+                        "Generals",
+                        "Sensations",
+                        "Discharges",
+                        "Pathological",		
+			"Predisposing",
+                        "Precipitating",
+                        "Maintaining",
+
+                        "Analysis and Evaluation of Symptoms",
+
+                        "Rubrics",
+
+                        "Nature of Disease",
+                        "Description",
+                        "Susceptibility Implication",
+                        "Quantification Reactivity Immunity Vitality Sensitivity",
+
+                        "Stage of the Disease",
+                        "Onset of the Disease",
+                        "Pace of the Disease",
+                        "Quality of Structural Changes",
+                        "Type of Pathology",
+                        "Type of Structural Changes / State of Pathology",
+                        "Magnitude of Structural Changes",
+                        "Pattern of Evolution / Response",
+                        "Previous application",
+                        "Direction of the Disease",
+                        "Suppression Psycho-Physiological",
+                        "Suppression Pathological",
+                        "Evaluation of characteristics in the case",
+                        "Level of Similarity",
+                        "Degree of Similarity",
+                        "Susceptibility Formulations,Sensitivity",
+                        "Vitality",
+                        "Susceptibility",
+                        "Potency",
+                        "Repetition",
+
+                        "Discussion on remedy differentiation and basis of selection of final remedy",
+
+                        "Give planning and programming of Homoeopathic management",
+
+                        "Comprehensive Clinical Formulations",
+
+			"Psychologist",
+                        "Special Educator",
+                        "Occupational Therapist",
+                        "Speech Therapist",
+                        "Neurologist",
+                        "Orthopaedic",
+                        "Psychiatrist",
+
+
+                        "Education and Orientation",
+
+                        "Planning, Programming of Treatment, Scope of Treatment, Prognosis with Therapeutic Objectives",
+
+                        "Criteria with Followup Sheets",
+
+                        "Follow up Analysis",
+                        "Interpretations",
+                        "Actions",
+                        "Withdrawal Remarks and Reasons for Deviations"
+                   ]
+                }
+          }
+      }
+    },
+"childCareCaseSynopsis": {
+    "translationKey": "DASHBOARD_TITLE_Child_Care_Case_Synopsis_KEY",
+    "printing": {
+        "title": "Spandan Holistic Mother and Child Care Hospital",
+        "header": "Child Care Case Synopsis",
+        "logo": "../images/spandanLogo.png"
+    },
+    "sections": {
+        "PatientInformation":{
+                "type": "patientInformation",
+                "displayOrder": 0,
+                "config": {
+                    "title": "PatientInformation",
+                    "patientAttributes": ["caste", "class", "education", "occupation", "RationCard", "familyIncome"],
+                    "addressFields": ["address1", "address2", "cityVillage", "countyDistrict"]
+                }
+            },
+        "Child Care Case Synopsis": {
+            "type": "observation",
+            "translationKey": "DASHBOARD_TITLE_Child_Care_Case_Synopsis_KEY",
+            "displayOrder": 1,
+                "config": {
+                        "conceptNames": [
+                        "Presentation Clinical Profile",
+			"Psychometric Assessment",
+			"Other Investigations (Genetic/Bio-chemical/EEG/MRI etc)",
+			"Presentation Analysis",
+			"Associated Medical Conditions",
+			"Comprehensive Clinical Diagnosis",
+			"Consultation Images",
+			"Totality",
+			"Similimum with D/D",
+			"Susceptibility and Posology",
+			"Important Case Concept",
+			"Conclusion"
+         	 ]	
+                }
+          }
+      }
+    },
+
+ "antenatalCaseRecord": {
+    "translationKey": "DASHBOARD_TITLE_Antenatal_Case_Record_KEY",
+    "printing": {
+        "title": "Spandan Holistic Mother and Child Care Hospital",
+        "header": "Antenatal Case record",
+        "logo": "../images/spandanLogo.png"
+    },
+    "sections": {
+        "PatientInformation":{
+                "type": "patientInformation",
+                "displayOrder": 0,
+                "config": {
+                    "title": "PatientInformation",
+                    "patientAttributes": ["caste", "class", "education", "occupation", "RationCard", "familyIncome"],
+                    "addressFields": ["address1", "address2", "cityVillage", "countyDistrict"]
+                }
+            },
+        "AntenatalCaseRecord": {
+            "type": "observation",
+            "displayOrder": 1,
+             "translationKey":"DASHBOARD_TITLE_Antenatal_Case_Record_KEY",
+                "config": {
+                        "conceptNames": [
+                        "Past H/O",
+                        "Family H/O",
+                        "Obstretic History",
+                        "Gravida",
+                        "Parity",
+                        "Live Births",
+                        "Abortion",
+                        "Blood Group",
+                        "ANC, Last Menstrual Period",
+                        "ANC, Expected Delivery Date",
+                        "Place and type of delivery",
+                        "ANC, Investigations",
+                        "Vigilant Medical monitoring of mother and fetus through out pregnancy",
+                        "Counselling for Health and Hygiene of Mother and baby",
+                        "Counselling and imparting Knowledge and supervised training about breast feeding of child",
+                        "Application of Yoga in ANC",
+                        "Application of Homoeopathy in ANC",
+                        "Counselling for Sound mental health with the help of yoga, meditation and counselling",
+                        "Awareness about diet and importance of perfect nutrition",
+                        "Application of physiotherapy in antenatal and postnatal phase",
+                        "Skillful application of scientific homeopathy for smooth and safe delivery",
+                        "Homeopathy for postnatal care of mother and infant"
+      
+                   ]
+                }
+          }
+      }
+    },
+ "obstretics": {
+    "translationKey": "DASHBOARD_TITLE_Obstetrics_KEY",
+    "printing": {
+        "title": "Spandan Holistic Mother and Child Care Hospital",
+        "header": "Obstretics",
+        "logo": "../images/spandanLogo.png"
+    },
+    "sections": {
+        "PatientInformation":{
+                "type": "patientInformation",
+                "displayOrder": 0,
+                "config": {
+                    "title": "PatientInformation",
+                    "patientAttributes": ["caste", "class", "education", "occupation", "RationCard", "familyIncome"],
+                    "addressFields": ["address1", "address2", "cityVillage", "countyDistrict"]
+                }
+            },
+        "Obstretics": {
+            "type": "observation",
+       	    "translationKey": "DASHBOARD_TITLE_Obstetrics_KEY",
+	    "displayOrder": 1,
+                "config": {
+                        "conceptNames": [
+                        "History of previous labours",
+                        "Gravida",
+                        "Parity",
+                        "L.C.B.",
+                        "LMP",
+                        "E.D.C.",
+                        "Complications in present pregnancy",
+                        "Important findings",
+                        "Onset of Pain",
+                        "Show",
+                        "Bleeding",
+                        "Membranes",
+                        "Hours ago",
+                        "Abdomen palpation",
+                        "Height of fundus",
+                        "Condition of Uterus",
+                        "Presentation",
+                        "Position",
+                        "Relationship of presenting part to pelvis",
+                        "F.H. position and rate",
+                        "Vaginal Examination"
+          ]
+                }
+          }
+      }
+    },
+    "gynecology": {
+    "translationKey": "DASHBOARD_TITLE_Gynecology_KEY",
+    "printing": {
+        "title": "Spandan Holistic Mother and Child Care Hospital",
+        "header": "Gynecology",
+        "logo": "../images/spandanLogo.png"
+    },
+    "sections": {
+	"PatientInformation":{
+                "type": "patientInformation",
+                "displayOrder": 0,
+                "config": {
+                    "title": "PatientInformation",
+                    "patientAttributes": ["caste", "class", "education", "occupation", "RationCard", "familyIncome"],
+                    "addressFields": ["address1", "address2", "cityVillage", "countyDistrict"]
+                }
+            },
+	"Gynecology": {
+            "type": "observation",
+            "displayOrder": 1,
+             "translationKey":"DASHBOARD_TITLE_Gynecology_KEY",
+                "config": {
+                        "conceptNames": [
+                        "Gynecology Case Chief Complaint",
+                        "Past H/O",
+                        "Family H/O",
+                        "Menstrual H/O",
+                        "FMP",
+                        "LMP",
+                        "Menses Duration",
+                        "Cycle",
+                        "Quantity",
+                        "Recent Changes",
+                        "Leucorrhoea",
+                        "Obstetric History / Antenatal History / Abortion / Past Deliveries",
+                        "Gravida",
+                        "Abortion",
+                        "Parity",
+                        "Live Births",
+                        "O/E",
+                        "Provisional Diagnosis",
+                        "Investigations Advised",
+                        "Investigations Received",
+                        "Clinical Diagnosis",
+                        "Advice and Remarks"
+                   ]
+                }
+          } 
+      }      
+    },
+    "orders":{
+      "translationKey": "DASHBOARD_TAB_ORDERS_KEY",
+      "sections": {
+          "Radiology Orders": {
+              "type": "order",
+              "displayOrder": 0,
+              "translationKey": "Radiology Orders",
+              "config": {
+                  "translationKey": "Radiology Orders",
+                  "name": "ordersControl",
+                  "orderType": "Radiology Order",
+                  "conceptNames": [
+                      "Summary"
+                  ]
+              }
+          },
+	"Psychometric Tests":{
+	      "type": "order",
+              "displayOrder": 1,
+              "translationKey": "Psychometric Tests",
+              "config": {
+                  "translationKey": "Psychometric Tests",
+                  "name": "ordersControl",
+                  "orderType": "Psychometric Tests",
+                  "conceptNames": [
+                      "Other Notes"
+                  ]
+              }
+
+      },
+	"Tests for Genetic & Metabolic disorders":{
+              "type": "order",
+              "displayOrder": 2,
+              "translationKey": "Tests for Genetic & Metabolic disorders",
+              "config": {
+                  "translationKey": "Tests for Genetic & Metabolic disorders",
+                  "name": "ordersControl",
+                  "orderType": "Tests for Genetic & Metabolic disorders",
+                  "conceptNames": [
+                      "Other Notes"
+                  ]
+              }
+
+      }
+	}
+    }
+}
+

@@ -1,0 +1,131 @@
+{
+        "id": "bahmni.registration",
+        "instanceOf":"bahmni.template.registration",
+        "description": "Bahmni Patient Registration App",
+        "extensionPoints": [
+            {
+                "id": "org.bahmni.registration.patient.search.result.action",
+                "description": "Bahmni Patient Search Result Action"
+            },
+            {
+                "id": "org.bahmni.registration.patient.next",
+                "description": "After Bahmni Patient Registration, forward url configuration"
+            }
+        ],
+        "contextModel": [
+            "patientUuid",
+            "activeVisitUuid"
+        ],
+        "config" : {
+            "patientInformation": {
+                "additionalPatientInformation": {
+                    "title": "Family Information",
+		    "attributes":[                      
+    				"marital Status",
+				"spouse (if married)",
+				"consanguinity in parents",
+				"if yes (Specific The Relationship)",
+				"child's Mother Name",
+				"child's Father Name"
+			]
+		},
+		"occupationInformation": {
+                        "title": "Occupation Information",
+                        "attributes":[
+                                "occupation",
+                                "occupation Address",
+                                "occupation Phone Number",
+				"father's occupation",
+				"mother's occupation",
+				"spouse's occupation"
+                        ]
+                },
+		"incomeInformation": {
+                        "title": "Income",
+                        "attributes":[     
+                                "annual Income (Rs)",
+                                "total Earning Members in the Family",
+				"proof of Income"
+                        ]
+                },
+		"referenceInformation": {
+                        "title": "Reference Information",
+                        "attributes":[
+				"reference Source",
+                                "reference Name",
+                                "designation",
+				"reference Address",
+                                "telephone"
+                        ]
+                },
+                "hidden": {
+                    "attributes": [
+                    ]
+                },
+                "defaults":  {
+                    "class": "General",
+                    "landHolding": 2
+                }
+            },
+            "addressHierarchy": {
+                "showAddressFieldsTopDown": false
+            },
+            "relationshipTypeMap": {
+                "Doctor":"provider",
+                "Parent":"patient"
+            },
+		"patientSearch": {
+ 		"address": {
+		    "label": "Address",
+   		    "placeholder": "Enter address",
+    		    "field": "address1"
+  		  },
+		"searchByPatientIdentifier": true
+		},
+
+            "autoCompleteFields":["familyName", "caste"],
+            "defaultIdentifierPrefix": "SH",
+	    "showEnterID": false,
+            "defaultVisitType": "OPD",
+            "searchByIdForwardUrl": "/patient/{{patientUuid}}",
+            "showMiddleName": true,
+            "showLastName": true,
+            "isLastNameMandatory": true,
+            "showSaveConfirmDialog": false,
+            "showBirthTime": true,
+            "showCasteSameAsLastNameCheckbox": false,
+            "printOptions": [
+                {
+                    "translationKey": "REGISTRATION_PRINT_REG_CARD_KEY",
+                    "templateUrl": "/bahmni_config/openmrs/apps/registration/registrationCardLayout/print.html",
+                    "shortcutKey": "p"
+                },
+                {
+                    "translationKey": "REGISTRATION_PRINT_WITH_BARCODE",
+                    "templateUrl": "/bahmni_config/openmrs/apps/registration/registrationCardLayout/printWithBarcode.html",
+                    "shortcutKey": "c"
+                }
+            ],
+            "conceptSetUI": {
+                "Visit and Fee Information": {
+                    "required": true,
+                    "label": "Fee"
+                },
+                "FHS": {
+                    "buttonSelect": true
+                },
+                "defaults":{
+                    "FHS": "Present"
+                }
+            },
+            "fieldValidation" : {
+                "primaryContact" : {"pattern" : "[0-9]{8,10}", "errorMessage" : "Should be 12 characters starting with 91 (country code)"},
+                "landHolding" : {"pattern" : "[0-9]{0,3}", "errorMessage" : "Should be between 1 to 999 acres"},
+                "familyName" : {"pattern" : "[a-zA-Z]{0,}", "errorMessage" : "Should contain characters"},
+                "givenName" : {"pattern" : "[a-zA-Z]{0,}", "errorMessage" : "Should contain characters"},
+                "middleName" : {"pattern" : "[a-zA-Z]{0,}", "errorMessage" : "Should contain characters"} 
+
+            }
+        }
+}
+
