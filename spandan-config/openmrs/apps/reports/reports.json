@@ -373,7 +373,14 @@
             "visitTypesToFilter": []
         }
     },
-	"annualIncomeCountReport": {
+      "bahmniMartTestReport": {
+    "name": "Mart Test Report",
+    "type": "MartGeneric",
+    "config": {
+       "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/testMartCode.sql"
+     }
+    }, 
+     "annualIncomeCountReport": {
     		"name": "Count of Annual Income Group",
     		"type": "MRSGeneric",
     		"config": {
